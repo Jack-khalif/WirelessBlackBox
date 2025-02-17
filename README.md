@@ -1,64 +1,45 @@
-# WirelessBlackBox
-A Vehicle Monitoring and Accident Detection System using ESP32, DHT22, MPU6050, and SW420 sensors. Logs real-time data to ThingSpeak and triggers alerts for accidents and hazardous conditions.
+# ESP32_based_Blackbox
 
-## **Overview**
-This project implements a Vehicle Monitoring and Accident Detection System using an ESP32 microcontroller, multiple sensors, and ThingSpeak integration. It monitors environmental conditions, vehicle dynamics, and logs real-time data to the cloud, while triggering alerts for accidents or hazardous conditions.
+## Description
+A Wireless Blackbox for PSV monitoring, tailored for "Matatu" operators. The system monitors:
+        -acceleration of the vehicle
+        -the tilt
+        -temperature of engine area
+        -vibration
 
-## **Features**
-1. **Environmental Monitoring**
-   - Detects temperature and humidity using the DHT22 sensor.
-2. **Accident Detection**
-   - Identifies tilt, acceleration, and vibrations using the MPU6050 and SW420 sensors.
-3. **Cloud Logging**
-   - Sends data to ThingSpeak for remote monitoring and visualization.
-4. **Alert System**
-   - Triggers buzzer alerts when thresholds are exceeded.
+Monitored parameters are sent to a cloud palatform(ThingsPeak for this case) and also locally stored on the onboard SD card memory.
 
-## **Hardware Components**
-- **ESP32 DevKit V1**
-- **DHT22 Sensor** (Temperature and Humidity)
-- **SW420 Vibration Sensor**
-- **MPU6050 Accelerometer and Gyroscope**
-- **Buzzer**
+## Table of Contents
+- [Block Diagram](#Block_Diagram)
+- [PCB](#PCB)
+- [Prototype](#Prototype)
+- [License](#license)
 
-## **How It Works**
-1. **Initialization**:
-   - Connects to Wi-Fi and initializes sensors.
-2. **Data Collection**:
-   - Reads temperature, humidity, acceleration, tilt, and vibration state.
-3. **Alerts**:
-   - Activates buzzer for potential crashes or hazardous conditions.
-4. **Cloud Logging**:
-   - Sends collected data to ThingSpeak for analysis and visualization.
+## Block Diagram
+The block diagram of the system is as shown below:
+![blockdiagram](image.png)
 
-## **Setup Instructions**
-### **1. Hardware Connections**
-- Connect:
-  - **DHT22 sensor** to GPIO 5.
-  - **SW420 vibration sensor** to GPIO 2.
-  - **Buzzer** to GPIO 14.
-  - **MPU6050** to I2C (SDA to GPIO 21, SCL to GPIO 22).
+## PCB
+The PCB is designed using KiCAD. The major hardware include:
+1. ESP32-S3 -this is the main "brain" of the system. Its specifications, particularly speed & RF(WiFi) capabilities made it suitable for the use case
+2. mpu6050 - measures the acceleration, tilt, and speed
+3. L80 -R GPS module - connects with satellits to get the latitude and longitude coordinates of the device
+4. SIM800L GSM Module - used for its GSM to send instant alerts via SMS. It is GPRS enabled and can be used as backup when there is no WiFi
+5. buzzer - auditory alerts for the driver & passengers on board
+6. temperature sensor(DHT used here) - external slot is allocated to attach an external temperatures sensor
+7. SD card connector - for mounting SD card
 
-### **2. Software Setup**
-- Install required libraries:
-  - `WiFi`
-  - `ThingSpeak`
-  - `DHT`
-  - `Adafruit_MPU6050`
-- Configure Wi-Fi credentials in the code.
-- Replace `myChannelNumber` and `myWriteAPIKey` with your ThingSpeak channel details.
 
-### **3. Upload Code**
-- Use Arduino IDE or PlatformIO to upload the code.
+The Top and Bottom models are as shown:
+![Top part](top.jpg) 
 
-### **4. Run**
-- Power the ESP32 and monitor behavior via Serial Monitor or ThingSpeak.
+![Bottom Part](wireless_blackbox_bottom.png)
 
-## **Future Improvements**
-- Add GPS tracking for accident location.
-- Integrate GSM for SMS alerts to emergency contacts.
-- Implement offline data storage for black-box functionality.
+## Prototype
+The assembeled protoboard:
+![WhatsApp Image 2025-02-11 at 20 32 07_6cc43ec6](https://github.com/user-attachments/assets/be5487cf-2fc5-47db-9a37-aebdf2c35b56)
 
-## **License**
-[MIT License](LICENSE)
+![alt text](<prototype.jpg>)
 
+## License
+MIT
